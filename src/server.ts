@@ -1,20 +1,29 @@
 /* eslint-disable no-console */
 import dgram from 'dgram';
+import c from './config.json';
+import { fieldNames, parseForzaData } from './forzaData';
 
-const server = dgram.createSocket('udp4');
+if (require.main === module) {
+  const server = dgram.createSocket('udp4');
 
-server.on('error', (err) => {
-  console.log(`server error:\n${err.stack}`);
-  server.close();
-});
+  server.on('error', (err) => {
+    console.log(`Server error:\n${err.stack}`);
+    server.close();
+  });
 
-server.on('message', (msg, rinfo) => {
-  console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
-});
+  server.on('message', (msg) => {
+    const values = parseForzaData(msg);
+    for (let i = 0; i < values.length; i += 1) {
+      console.log(`${fieldNames[i]} ${values[i]}`);
+    }
+  });
 
-server.on('listening', () => {
-  const address = server.address();
-  console.log(`server listening ${address.address}:${address.port}`);
-});
+  server.on('listening', () => {
+    const address = server.address();
+    console.log(
+      `Listening for Forza data at: ${address.address}:${address.port}`,
+    );
+  });
 
-server.bind(1642);
+  server.bind(c.udpPort);
+}
