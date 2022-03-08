@@ -1,29 +1,40 @@
 /* eslint-disable no-console */
 import dgram from 'dgram';
+import WebSocket from 'ws';
 import c from './config.json';
 import { fieldNames, parseForzaData } from './forzaData';
 
 if (require.main === module) {
-  const server = dgram.createSocket('udp4');
+  let webSocket: WebSocket;
 
-  server.on('error', (err) => {
-    console.log(`Server error:\n${err.stack}`);
-    server.close();
+  const webSocketServer = new WebSocket.Server({ port: c.wsPort });
+  webSocketServer.on('connection', (ws) => {
+    console.log('Connection established with web app.');
+    webSocket = ws;
   });
 
-  server.on('message', (msg) => {
+  const udpSocket = dgram.createSocket('udp4');
+  udpSocket.on('error', (err) => {
+    console.log(`UDP socket error:\n${err.stack}`);
+    udpSocket.close();
+  });
+
+  udpSocket.on('message', (msg) => {
     const values = parseForzaData(msg);
-    for (let i = 0; i < values.length; i += 1) {
-      console.log(`${fieldNames[i]} ${values[i]}`);
+    const object = Object.fromEntries(
+      fieldNames.map((f: string, i: number) => [f, values[i]]),
+    );
+    if (webSocket) {
+      webSocket.send(JSON.stringify(object));
     }
   });
 
-  server.on('listening', () => {
-    const address = server.address();
+  udpSocket.on('listening', () => {
+    const address = udpSocket.address();
     console.log(
       `Listening for Forza data at: ${address.address}:${address.port}`,
     );
   });
 
-  server.bind(c.udpPort);
+  udpSocket.bind(c.udpPort);
 }

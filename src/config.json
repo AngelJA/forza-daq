@@ -1,3 +1,18 @@
 {
-  "udpPort": 1642
+  "udpPort": 1642,
+  "wsPort": 5001,
+  "map": {
+    "lat": {
+      "center": -875,
+      "radius": 5700
+    },
+    "long": {
+      "center": 310,
+      "radius": 5975
+    },
+    "bounds": [
+      [-6557, -5665],
+      [4843, 6285]
+    ]
+  }
 }

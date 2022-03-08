@@ -2,11 +2,12 @@
   "name": "forza-daq",
   "version": "1.0.0",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm-run-all -p -r start-react server",
+    "start-react": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "udp": "ts-node src/udp.ts"
+    "server": "ts-node src/server.ts"
   },
   "keywords": [],
   "devDependencies": {
@@ -14,6 +15,7 @@
     "@testing-library/react": "^12.1.3",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
+    "@types/leaflet": "^1.7.9",
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.13",
@@ -29,6 +31,7 @@
     "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "jest": "^27.5.1",
+    "npm-run-all": "^4.1.5",
     "react-scripts": "5.0.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
@@ -52,8 +55,11 @@
     ]
   },
   "dependencies": {
+    "leaflet": "^1.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "web-vitals": "^2.1.4"
+    "react-leaflet": "^3.2.5",
+    "web-vitals": "^2.1.4",
+    "ws": "^8.5.0"
   }
 }
