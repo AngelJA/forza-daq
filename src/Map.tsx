@@ -8,10 +8,10 @@ import {
 import { CRS, DomUtil, icon, Marker } from 'leaflet';
 import './Map.css';
 import 'leaflet/dist/leaflet.css';
+import ws from './websocket';
 import c from './config.json';
 import arrow from './arrow.svg';
 
-const webSocket = new WebSocket(`ws://${window.location.hostname}:${c.wsPort}`);
 const arrowIcon = icon({ iconUrl: arrow, iconSize: [40, 40] });
 
 function CarMarker() {
@@ -29,7 +29,7 @@ function CarMarker() {
   });
 
   useEffect(() => {
-    webSocket.addEventListener('message', (event) => {
+    ws.addEventListener('message', (event) => {
       const msg = JSON.parse(event.data);
       if (msg.s32IsRaceOn) {
         setMarkerPos({
