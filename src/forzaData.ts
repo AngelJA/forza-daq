@@ -22,6 +22,8 @@ function parseField(this: { offset: number; msg: Buffer }, field: string) {
   return value;
 }
 
+export const messageLength = 324;
+
 export const fieldNames = [
   's32IsRaceOn',
   'u32TimestampMS',

@@ -1,0 +1,34 @@
+.Controls > .FileList {
+  position: absolute;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #00000099
+}
+
+.Controls > .FileList > button {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Controls > .Buttons {
+  position: absolute;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.Controls > .Buttons > button {
+  border-radius: 50%;
+  width: 40px;
+  aspect-ratio: 1;
+  margin: 7.5px 15px;
+  font-size: 1rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
