@@ -22,6 +22,23 @@ export async function sendCommand(action: number, data?: object) {
   webSocket.send(JSON.stringify({ action, ...data }));
 }
 
+export function getReply<T>(action: number): Promise<T> {
+  return new Promise<T>((resolve) => {
+    const controller = new AbortController();
+    webSocket.addEventListener(
+      "message",
+      (event) => {
+        const msg = JSON.parse(event.data);
+        if (msg.action === action) {
+          controller.abort();
+          resolve(msg);
+        }
+      },
+      { signal: controller.signal }
+    );
+  });
+}
+
 window.addEventListener("beforeunload", () => {
   sendCommand(c.actions.endRecording);
   sendCommand(c.actions.endPlayback);
