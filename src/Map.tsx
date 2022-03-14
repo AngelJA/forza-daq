@@ -54,7 +54,7 @@ function CarMarker() {
   useEffect(() => {
     const marker = markerRef.current;
     if (marker != null) {
-      // @ts-ignore
+      // @ts-expect-error
       const markerIcon = marker._icon; // eslint-disable-line no-underscore-dangle
       markerIcon.style[`${DomUtil.TRANSFORM}-origin`] = 'center';
       markerIcon.style[DomUtil.TRANSFORM] += ` rotateZ(${state.marker.yaw}deg)`;

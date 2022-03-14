@@ -6,7 +6,7 @@ import { join } from 'path';
 import { open, readdir } from 'fs/promises';
 import c from './config.json';
 import userConfig from './userConfig';
-import { fieldNames, messageLength, parseForzaData } from './forzaData';
+import { fields, messageLength, parseForzaData } from './forzaData';
 
 function sleep(ms: number) {
   return new Promise((resolve) => {
@@ -62,6 +62,13 @@ class Server {
       this.recordToFile();
     } else if (command.action === c.actions.startPlayback) {
       this.playbackFromFile();
+    } else if (command.action === c.actions.requestChartConfigs) {
+      this.ws.send(
+        JSON.stringify({
+          type: c.actions.sendChartConfigs,
+          configs: userConfig.chart.configs,
+        }),
+      );
     }
   }
 
@@ -69,7 +76,7 @@ class Server {
     this.lastMsg = msg;
     const values = parseForzaData(msg);
     const gameData = Object.fromEntries(
-      fieldNames.map((f: string, i: number) => [f, values[i]]),
+      Object.keys(fields).map((f: string, i: number) => [f, values[i]]),
     );
     if (this.ws) {
       this.ws.send(
