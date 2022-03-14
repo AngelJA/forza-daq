@@ -4,7 +4,13 @@ const webSocket = new WebSocket(`ws://${window.location.hostname}:${c.wsPort}`);
 
 export default webSocket;
 
-export function sendCommand(command: number, data?: object) {
+export async function sendCommand(command: number, data?: object) {
+  while (webSocket.readyState !== 1) {
+    await new Promise((resolve) => {
+      setTimeout(resolve, 50);
+    });
+  }
+
   webSocket.send(JSON.stringify({ action: command, ...data }));
 }
 
