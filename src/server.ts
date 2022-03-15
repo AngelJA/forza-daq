@@ -63,7 +63,7 @@ class Server {
       this.ws.send(
         JSON.stringify({
           type: c.actions.sendChartConfigs,
-          configs: userConfig.chart.configs,
+          configs: userConfig().chart.configs,
         }),
       );
     }
@@ -102,6 +102,7 @@ class Server {
   }
 
   async playbackFromFile() {
+    const { logRate } = await userConfig();
     const filename = await this.getLogFileName();
     const fh = await open(filename, 'r');
     const client = dgram.createSocket('udp4');
@@ -119,13 +120,14 @@ class Server {
       } else {
         offset += messageLength;
         client.send(data, c.udpPort, 'localhost');
-        await sleep(1000 / userConfig.logRate);
+        await sleep(1000 / logRate);
       }
     }
     fh?.close();
   }
 
   async recordToFile() {
+    const { logRate } = await userConfig();
     const date = new Date();
     const dateString = date.toLocaleDateString().replaceAll('/', '-');
     const timeString = date
@@ -143,7 +145,7 @@ class Server {
       if (this.lastMsg) {
         fh.appendFile(this.lastMsg, 'binary');
       }
-      await sleep(1000 / userConfig.logRate);
+      await sleep(1000 / logRate);
     }
     fh?.close();
   }
