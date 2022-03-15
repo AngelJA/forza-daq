@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import dgram from 'dgram';
 import WebSocket from 'ws';
+import express from 'express';
+import { join } from 'path';
 import { open, readdir } from 'fs/promises';
 import c from './config.json';
 import userConfig from './userConfig';
@@ -147,4 +149,13 @@ if (require.main === module) {
   const server = new Server();
   const webSocketServer = new WebSocket.Server({ port: c.wsPort });
   webSocketServer.on('connection', server.newWsConnection.bind(server));
+
+  if (!process.argv.includes('dev')) {
+    const app = express();
+    app.use(express.static(join(__dirname, '../build')));
+    app.get('*', (req, res) => {
+      res.sendFile(join(__dirname, '../build/index.html'));
+    });
+    app.listen(c.webPort);
+  }
 }
