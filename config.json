@@ -94,6 +94,100 @@
             }
           }
         }
+      },
+      {
+        "fps": 60,
+        "maxDataPoints": 180,
+        "fields": [
+          "f32Speed",
+          "f32CurrentEngineRpm"
+        ],
+        "data": {
+          "datasets": [
+            {
+              "borderColor": "#00FF0080",
+              "backgroundColor": "#00FF0080",
+              "fill": true,
+              "yAxisID": "y"
+            },
+            {
+              "borderColor": "#0000FF80",
+              "backgroundColor": "#0000FF80",
+              "fill": false,
+              "yAxisID": "y2"
+            }
+          ]
+        },
+        "chartConfig": {
+          "type": "line",
+          "options": {
+            "maintainAspectRatio": false,
+            "plugins": {
+              "legend": {
+                "display": true
+              }
+            },
+            "scales": {
+              "x": {
+                "grid": {
+                  "display": false
+                },
+                "ticks": {
+                  "display": false
+                }
+              },
+              "y": {
+                "grid": {
+                  "drawTicks": false
+                },
+                "ticks": {
+                  "display": true
+                },
+                "min": 0,
+                "max": 60
+              },
+              "y2": {
+                "position": "right",
+                "grid": {
+                  "drawTicks": false
+                },
+                "ticks": {
+                  "display": true
+                },
+                "min": 0,
+                "max": 15000
+              }
+            },
+            "elements": {
+              "line": {
+                "tension": 0
+              },
+              "point": {
+                "radius": 0
+              }
+            },
+            "animation": false,
+            "tooltips": {
+              "enabled": false
+            },
+            "parsing": false,
+            "normalized": true,
+            "spanGaps": true,
+            "datasets": {
+              "line": {
+                "pointRadius": 0
+              }
+            },
+            "elements": {
+              "points": {
+                "radius": 0
+              }
+            },
+            "hover": {
+              "mode": null
+            }
+          }
+        }
       }
     ]
   }
