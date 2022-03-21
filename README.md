@@ -20,5 +20,5 @@ No need to install anything. Just download the [latest release](https://github.c
 
 ## Credits
 
-- Car list by RUBITS on the [Forza forums](https://forums.forzamotorsport.net/t/forza-motorsport-7-data-out-feature-details/74013/166).
+- Car list by RUBITS on the [Forza forums](https://forums.forzamotorsport.net/t/forza-motorsport-7-data-out-feature-details/74013/166) and Minh on [scribd](https://www.scribd.com/document/442131615/ids-car-fh4).
 - High-res map by ImperiousStout on [reddit](https://www.reddit.com/r/forza/comments/9rah0u/comment/e8rax38/?utm_source=share&utm_medium=web2x&context=3).
