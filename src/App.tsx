@@ -8,6 +8,7 @@ import Map from "./Map";
 import LogControls from "./LogControls";
 import NoDataWarning from "./NoDataWarning";
 import LineChart, { ChartConfig, getChartConfigs } from "./LineChart";
+import CarAndLapInfo from "./CarAndLapInfo";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -23,6 +24,7 @@ function App() {
     <div className="App">
       <NoDataWarning />
       <LogControls />
+      <CarAndLapInfo />
       <ResponsiveGridLayout
         className="layout"
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}

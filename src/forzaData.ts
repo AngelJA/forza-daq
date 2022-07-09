@@ -1,3 +1,28 @@
+export function carClass(classNumber: number) {
+  switch (classNumber) {
+    case 0:
+      return "D";
+    case 1:
+      return "C";
+    case 2:
+      return "B";
+    case 3:
+      return "A";
+    case 4:
+      return "S1";
+    case 5:
+      return "S2";
+    case 6:
+      return "X";
+    default:
+      return "";
+  }
+}
+
+export function formatTime(time: number) {
+  return `${Math.trunc(time / 60)}:${(time % 60).toFixed(3).padStart(6, "0")}`;
+}
+
 function parseField(this: { offset: number; msg: Buffer }, field: string) {
   let value: number;
   if (field.startsWith("s32")) {

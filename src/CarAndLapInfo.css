@@ -1,0 +1,65 @@
+.carAndLapInfo {
+  position: absolute;
+  z-index: 5000;
+  text-align: right;
+  right: 0;
+  top: 1.5rem;
+  padding: 0.3rem;
+  color: white;
+  pointer-events: none;
+  text-shadow:
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+   -1px  1px 0 #000,
+    1px  1px 0 #000;
+}
+
+.yearMakeModel {
+  padding-right: 0.2rem;
+}
+
+.carAndLapInfo > span:nth-child(2) {
+  padding: 0.15rem;
+  color: white;
+  text-shadow: none;
+}
+
+.carAndLapInfo > span:nth-child(2) > span:first-child {
+  padding-right: 0.5rem;
+  padding-left: 0.35rem;
+}
+
+.X {
+  background-color: hsl(133, 74%, 41%);
+}
+
+.S2 {
+  background-color: hsl(232, 79%, 58%);
+}
+
+.S1 {
+  background-color: hsl(270, 93%, 59%);
+}
+
+.A {
+  background-color: hsl(10, 79%, 48%);
+}
+
+.B {
+  background-color: hsl(17, 88%, 53%);
+}
+
+.C {
+  background-color: hsl(49, 92%, 51%);
+}
+
+.D {
+  background-color: hsl(195, 88%, 53%);
+}
+
+.carPI {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: black;
+  background-color: white;
+}
