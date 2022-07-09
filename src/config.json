@@ -1,4 +1,5 @@
 {
+  "logRate": 60,
   "udpPort": 1642,
   "wsPort": 5001,
   "webPort": 3000,

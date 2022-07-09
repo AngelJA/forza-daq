@@ -96,7 +96,6 @@ class Server {
   }
 
   async playbackFromFile() {
-    const { logRate } = userConfig();
     const filename = await this.getLogFileName();
     const fh = await open(filename, "r");
     const { size: fileSize } = await fh.stat();
@@ -126,7 +125,7 @@ class Server {
         );
         client.send(data, c.udpPort, "localhost");
       }
-    }, 1000 / logRate);
+    }, 1000 / c.logRate);
     await this.getReply((msg) => msg.action === c.actions.endPlayback);
     clearInterval(intervalID);
 
@@ -134,7 +133,6 @@ class Server {
   }
 
   async recordToFile() {
-    const { logRate } = userConfig();
     const date = new Date();
     const dateString = date.toLocaleDateString().replaceAll("/", "-");
     const timeString = date
@@ -149,7 +147,7 @@ class Server {
         fh.appendFile(this.lastMsg, "binary");
         this.lastMsg = null;
       }
-    }, 1000 / logRate);
+    }, 1000 / c.logRate);
     await this.getReply((msg) => msg.action === c.actions.endRecording);
     clearInterval(intervalID);
     fh?.close();
