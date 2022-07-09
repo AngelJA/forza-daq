@@ -10,6 +10,7 @@ import NoDataWarning from "./NoDataWarning";
 import LineChart, { ChartConfig } from "./LineChart";
 import { request } from "./websocket";
 import c from "./config.json";
+import CarAndLapInfo from "./CarAndLapInfo";
 
 const ReactGridLayout = WidthProvider(RGL);
 const layoutsKey = "layouts";
@@ -36,6 +37,7 @@ function App() {
     <div className="App">
       <NoDataWarning />
       <LogControls />
+      <CarAndLapInfo />
       <ReactGridLayout
         className="layout"
         cols={12}
