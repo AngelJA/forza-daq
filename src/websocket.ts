@@ -23,5 +23,7 @@ export async function sendCommand(command: number, data?: object) {
 }
 
 window.addEventListener("beforeunload", () => {
+  sendCommand(c.actions.endRecording);
+  sendCommand(c.actions.endPlayback);
   webSocket.close();
 });
