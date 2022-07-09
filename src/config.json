@@ -23,6 +23,8 @@
     "startPlayback": 3,
     "endPlayback": 4,
     "requestLogFileName": 5,
-    "sendLogFileName": 6
+    "sendLogFileName": 6,
+    "requestChartConfigs": 7,
+    "sendChartConfigs": 8
   }
 }
