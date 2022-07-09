@@ -246,5 +246,231 @@
         }
       }
     }
+  },
+  {
+    "fps": 60,
+    "maxDataPoints": 180,
+    "fields": [
+      "f32Speed",
+      "f32CurrentEngineRpm"
+    ],
+    "data": {
+      "datasets": [
+        {
+          "borderColor": "#00FF0080",
+          "backgroundColor": "#00FF0080",
+          "fill": true,
+          "yAxisID": "yLeft",
+          "label": "Speed",
+          "data": []
+        },
+        {
+          "borderColor": "#0000FF80",
+          "backgroundColor": "#0000FF80",
+          "fill": false,
+          "yAxisID": "yRight",
+          "label": "Current Engine Rpm",
+          "data": []
+        }
+      ]
+    },
+    "chartConfig": {
+      "type": "line",
+      "options": {
+        "maintainAspectRatio": false,
+        "plugins": {
+          "legend": {
+            "display": true
+          }
+        },
+        "scales": {
+          "x": {
+            "axis": "x",
+            "grid": {
+              "display": false,
+              "lineWidth": 1,
+              "drawBorder": true,
+              "drawOnChartArea": true,
+              "drawTicks": true,
+              "tickLength": 8,
+              "offset": false,
+              "borderDash": [],
+              "borderDashOffset": 0,
+              "borderWidth": 1,
+              "color": "rgba(0,0,0,0.1)",
+              "borderColor": "rgba(0,0,0,0.1)"
+            },
+            "ticks": {
+              "display": false,
+              "minRotation": 0,
+              "maxRotation": 50,
+              "mirror": false,
+              "textStrokeWidth": 0,
+              "textStrokeColor": "",
+              "padding": 3,
+              "autoSkip": true,
+              "autoSkipPadding": 3,
+              "labelOffset": 0,
+              "minor": {},
+              "major": {},
+              "align": "center",
+              "crossAlign": "near",
+              "showLabelBackdrop": false,
+              "backdropColor": "rgba(255, 255, 255, 0.75)",
+              "backdropPadding": 2,
+              "color": "#666"
+            },
+            "type": "category",
+            "display": true,
+            "offset": false,
+            "reverse": false,
+            "beginAtZero": false,
+            "bounds": "ticks",
+            "grace": 0,
+            "title": {
+              "display": false,
+              "text": "",
+              "padding": {
+                "top": 4,
+                "bottom": 4
+              },
+              "color": "#666"
+            },
+            "id": "x",
+            "position": "bottom"
+          },
+          "yLeft": {
+            "axis": "y",
+            "grid": {
+              "drawTicks": false,
+              "display": true,
+              "lineWidth": 1,
+              "drawBorder": true,
+              "drawOnChartArea": true,
+              "tickLength": 8,
+              "offset": false,
+              "borderDash": [],
+              "borderDashOffset": 0,
+              "borderWidth": 1,
+              "color": "rgba(0,0,0,0.1)",
+              "borderColor": "rgba(0,0,0,0.1)"
+            },
+            "ticks": {
+              "display": true,
+              "minRotation": 0,
+              "maxRotation": 50,
+              "mirror": false,
+              "textStrokeWidth": 0,
+              "textStrokeColor": "",
+              "padding": 3,
+              "autoSkip": true,
+              "autoSkipPadding": 3,
+              "labelOffset": 0,
+              "minor": {},
+              "major": {},
+              "align": "center",
+              "crossAlign": "near",
+              "showLabelBackdrop": false,
+              "backdropColor": "rgba(255, 255, 255, 0.75)",
+              "backdropPadding": 2,
+              "color": "#666"
+            },
+            "type": "linear",
+            "display": true,
+            "offset": false,
+            "reverse": false,
+            "beginAtZero": false,
+            "bounds": "ticks",
+            "grace": 0,
+            "title": {
+              "display": false,
+              "text": "",
+              "padding": {
+                "top": 4,
+                "bottom": 4
+              },
+              "color": "#666"
+            },
+            "id": "yLeft",
+            "position": "left"
+          },
+          "yRight": {
+            "axis": "y",
+            "position": "right",
+            "grid": {
+              "drawTicks": false,
+              "display": true,
+              "lineWidth": 1,
+              "drawBorder": true,
+              "drawOnChartArea": true,
+              "tickLength": 8,
+              "offset": false,
+              "borderDash": [],
+              "borderDashOffset": 0,
+              "borderWidth": 1,
+              "color": "rgba(0,0,0,0.1)",
+              "borderColor": "rgba(0,0,0,0.1)"
+            },
+            "ticks": {
+              "display": true,
+              "minRotation": 0,
+              "maxRotation": 50,
+              "mirror": false,
+              "textStrokeWidth": 0,
+              "textStrokeColor": "",
+              "padding": 3,
+              "autoSkip": true,
+              "autoSkipPadding": 3,
+              "labelOffset": 0,
+              "minor": {},
+              "major": {},
+              "align": "center",
+              "crossAlign": "near",
+              "showLabelBackdrop": false,
+              "backdropColor": "rgba(255, 255, 255, 0.75)",
+              "backdropPadding": 2,
+              "color": "#666"
+            },
+            "type": "linear",
+            "display": true,
+            "offset": false,
+            "reverse": false,
+            "beginAtZero": false,
+            "bounds": "ticks",
+            "grace": 0,
+            "title": {
+              "display": false,
+              "text": "",
+              "padding": {
+                "top": 4,
+                "bottom": 4
+              },
+              "color": "#666"
+            },
+            "id": "yRight"
+          }
+        },
+        "elements": {
+          "points": {
+            "radius": 0
+          }
+        },
+        "animation": false,
+        "tooltips": {
+          "enabled": false
+        },
+        "parsing": false,
+        "normalized": true,
+        "spanGaps": true,
+        "datasets": {
+          "line": {
+            "pointRadius": 0
+          }
+        },
+        "hover": {
+          "mode": null
+        }
+      }
+    }
   }
 ]
