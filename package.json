@@ -5,7 +5,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "udp": "node-dev src/udp.ts"
   },
   "keywords": [],
   "devDependencies": {
@@ -28,8 +29,8 @@
     "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "jest": "^27.5.1",
+    "node-dev": "^7.4.3",
     "react-scripts": "5.0.0",
-    "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
   },
   "eslintConfig": {
