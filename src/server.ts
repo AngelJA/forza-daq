@@ -5,7 +5,8 @@ import express from "express";
 import { join } from "path";
 import { open, readdir } from "fs/promises";
 import c from "./config.json";
-import { fieldNames, messageLength, parseForzaData } from "./forzaData";
+import configs from "../config.json";
+import { fields, messageLength, parseForzaData } from "./forzaData";
 
 class Server {
   lastMsg: Buffer | null = null;
@@ -53,6 +54,13 @@ class Server {
       this.recordToFile();
     } else if (command.action === c.actions.startPlayback) {
       this.playbackFromFile();
+    } else if (command.action === c.actions.sendChartConfigs) {
+      this.ws.send(
+        JSON.stringify({
+          action: c.actions.sendChartConfigs,
+          configs,
+        })
+      );
     }
   }
 
@@ -60,7 +68,7 @@ class Server {
     this.lastMsg = msg;
     const values = parseForzaData(msg);
     const gameData = Object.fromEntries(
-      fieldNames.map((f: string, i: number) => [f, values[i]])
+      Object.keys(fields).map((f: string, i: number) => [f, values[i]])
     );
     this.ws?.send(
       JSON.stringify({

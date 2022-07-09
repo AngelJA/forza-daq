@@ -1,0 +1,8 @@
+.LineChart {
+  height: 20vh;
+}
+
+.ToggleLegendButton {
+  position: absolute;
+  margin: 0.25rem;
+}

@@ -23,6 +23,7 @@
     "endRecording": 2,
     "startPlayback": 3,
     "endPlayback": 4,
-    "sendLogFileName": 5
+    "sendLogFileName": 5,
+    "sendChartConfigs": 6
   }
 }

@@ -39,6 +39,11 @@ export function getReply<T>(action: number): Promise<T> {
   });
 }
 
+export async function request<T>(action: number): Promise<T> {
+  sendCommand(action);
+  return getReply<T>(action);
+}
+
 window.addEventListener("beforeunload", () => {
   sendCommand(c.actions.endRecording);
   sendCommand(c.actions.endPlayback);
