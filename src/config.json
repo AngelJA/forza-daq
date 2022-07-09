@@ -24,6 +24,7 @@
     "startPlayback": 3,
     "endPlayback": 4,
     "sendLogFileName": 5,
-    "sendChartConfigs": 6
+    "sendChartConfigs": 6,
+    "sendScrubPosition": 9
   }
 }
