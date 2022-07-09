@@ -250,8 +250,8 @@
         }
       },
       {
-        "fps": 60,
-        "maxDataPoints": 180,
+        "fps": 90,
+        "maxDataPoints": 360,
         "fields": [
           "f32Speed",
           "f32CurrentEngineRpm"

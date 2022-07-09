@@ -22,7 +22,7 @@ export async function sendCommand(command: number, data?: object) {
   webSocket.send(JSON.stringify({ action: command, ...data }));
 }
 
-export function getReply(condition: (msg: any) => boolean) {
+export function getReply<T>(condition: (msg: any) => boolean): Promise<T> {
   return new Promise((resolve) => {
     const controller = new AbortController();
     webSocket.addEventListener(
@@ -31,7 +31,7 @@ export function getReply(condition: (msg: any) => boolean) {
         const msg = JSON.parse(event.data);
         if (condition(msg)) {
           controller.abort();
-          resolve(msg);
+          resolve(msg.data);
         }
       },
       { signal: controller.signal }

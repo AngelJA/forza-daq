@@ -349,6 +349,8 @@ export const fields = {
   },
 };
 
+export type FieldsKey = keyof typeof fields;
+
 export function parseForzaData(msg: Buffer) {
   return Object.keys(fields).map(parseField, { offset: 0, msg });
 }

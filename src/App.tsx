@@ -5,25 +5,42 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import "./App.css";
 import Map from "./Map";
+import { getReply, sendCommand } from "./websocket";
+import { ChartConfig, UserConfig } from "./userConfig";
+import c from "./config.json";
 import LogControls from "./LogControls";
 import NoDataWarning from "./NoDataWarning";
-import LineChart, { ChartConfig, getChartConfigs } from "./LineChart";
+import LineChart from "./LineChart";
 import CarAndLapInfo from "./CarAndLapInfo";
+import ConfigEditor from "./ConfigEditor";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 function App() {
-  const [configs, setConfigs] = useState<ChartConfig[]>([]);
+  const [userConfig, setUserConfig] = useState<UserConfig>();
   const [map, setMap] = useState<LeafletMap>();
+  const [configToEdit, setConfigToEdit] = useState<ChartConfig>();
 
   useEffect(() => {
-    getChartConfigs().then(setConfigs);
+    sendCommand(c.actions.requestUserConfig);
+    getReply<UserConfig>((msg) => msg.type === c.actions.sendUserConfig).then(
+      setUserConfig
+    );
   }, []);
 
   return (
     <div className="App">
       <NoDataWarning />
       <LogControls />
+      {configToEdit && (
+        <ConfigEditor
+          initialConfig={configToEdit}
+          doneEditing={() => {
+            setConfigToEdit(undefined);
+            sendCommand(c.actions.sendUserConfig, { userConfig });
+          }}
+        />
+      )}
       <CarAndLapInfo />
       <ResponsiveGridLayout
         className="layout"
@@ -37,12 +54,15 @@ function App() {
           <Map setMap={setMap} />
           <div className="DragHandle" />
         </div>
-        {configs.map((config) => (
+        {userConfig?.chart?.configs.map((config) => (
           <div
             key={JSON.stringify(config)}
             data-grid={{ x: 0, y: 0, w: 12, h: 10 }}
           >
-            <LineChart config={config} />
+            <LineChart
+              config={config}
+              editConfig={(cc: ChartConfig) => setConfigToEdit(cc)}
+            />
             <div className="DragHandle" />
           </div>
         ))}

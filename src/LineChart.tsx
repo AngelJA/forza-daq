@@ -2,9 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   CategoryScale,
   Chart,
-  ChartData,
   ChartDataset,
-  ChartConfiguration,
   Filler,
   Legend,
   LinearScale,
@@ -13,9 +11,10 @@ import {
   PointElement,
   ScatterDataPoint,
 } from "chart.js";
-import ws, { getReply, sendCommand } from "./websocket";
+import ws from "./websocket";
 import "./LineChart.css";
 import c from "./config.json";
+import { ChartConfig } from "./userConfig";
 
 Chart.register(
   CategoryScale,
@@ -27,37 +26,15 @@ Chart.register(
   PointElement
 );
 
-export type ChartConfig = {
-  fps: number;
-  maxDataPoints: number;
-  fields: string[];
-  data: ChartData;
-  chartConfig: ChartConfiguration;
-};
-
-export async function getChartConfigs(): Promise<ChartConfig[]> {
-  sendCommand(c.actions.requestChartConfigs);
-  const reply = (await getReply(
-    (msg) => msg.type === c.actions.sendChartConfigs
-  )) as { configs: ChartConfig[] };
-  return reply.configs;
-}
-
 function updateChartCallback(config: ChartConfig) {
   return (event: MessageEvent) => {
     const msg = JSON.parse(event.data);
     if (msg.type === c.actions.sendGameData) {
       config.data.datasets.forEach((dataset, i) => {
         const key = config.fields[i];
-        let y = msg.gameData[key];
-        if (key?.startsWith("u8")) {
-          y /= 255;
-        } else if (key?.startsWith("s8")) {
-          y = -(y + 128) / 255 + 1;
-        }
         const { data } = dataset as ChartDataset<"line", ScatterDataPoint[]>;
-        data.push({ x: 0, y });
-        if (data.length > config.maxDataPoints) {
+        data.push({ x: 0, y: msg.gameData[key] });
+        while (data.length > config.maxDataPoints) {
           data.shift();
         }
         data.forEach((point, j) => {
@@ -70,7 +47,11 @@ function updateChartCallback(config: ChartConfig) {
 
 function LineChart({
   config,
-}: React.PropsWithChildren<{ config: ChartConfig }>) {
+  editConfig,
+}: React.PropsWithChildren<{
+  config: ChartConfig;
+  editConfig: (configToEdit: ChartConfig) => void;
+}>) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [showLegend, setShowLegend] = useState(true);
   const chartRef = useRef<Chart | null>(null);
@@ -116,6 +97,15 @@ function LineChart({
         onClick={() => setShowLegend(!showLegend)}
       >
         {showLegend ? "-" : "+"}
+      </button>
+      <button
+        type="button"
+        className="EditConfigButton"
+        onClick={() => {
+          editConfig(config);
+        }}
+      >
+        edit
       </button>
       <canvas ref={canvasRef} />
     </div>

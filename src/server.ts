@@ -5,7 +5,7 @@ import express from "express";
 import { join } from "path";
 import { open, readdir } from "fs/promises";
 import c from "./config.json";
-import userConfig from "./userConfig";
+import { getUserConfig, writeUserConfig } from "./userConfig";
 import { fields, messageLength, parseForzaData } from "./forzaData";
 
 class Server {
@@ -51,13 +51,15 @@ class Server {
       this.recordToFile();
     } else if (command.action === c.actions.startPlayback) {
       this.playbackFromFile();
-    } else if (command.action === c.actions.requestChartConfigs) {
+    } else if (command.action === c.actions.requestUserConfig) {
       this.ws.send(
         JSON.stringify({
-          type: c.actions.sendChartConfigs,
-          configs: userConfig().chart.configs,
+          type: c.actions.sendUserConfig,
+          data: getUserConfig(),
         })
       );
+    } else if (command.action === c.actions.sendUserConfig) {
+      writeUserConfig(command.userConfig);
     } else if (command.action === c.actions.sendScrubPosition) {
       this.scrubPosition = command.pos;
     }
@@ -65,11 +67,11 @@ class Server {
 
   onUdpMsg(msg: Buffer) {
     this.lastMsg = msg;
-    const values = parseForzaData(msg);
-    const gameData = Object.fromEntries(
-      Object.keys(fields).map((f: string, i: number) => [f, values[i]])
-    );
     if (this.ws) {
+      const values = parseForzaData(msg);
+      const gameData = Object.fromEntries(
+        Object.keys(fields).map((f: string, i: number) => [f, values[i]])
+      );
       this.ws.send(
         JSON.stringify({
           type: c.actions.sendGameData,
