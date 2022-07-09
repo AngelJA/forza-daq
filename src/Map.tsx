@@ -5,7 +5,7 @@ import {
   Marker as ReactMarker,
   useMapEvent,
 } from "react-leaflet";
-import { CRS, DomUtil, icon, Marker } from "leaflet";
+import { CRS, DomUtil, icon, Map as LeafletMap, Marker } from "leaflet";
 import "./Map.css";
 import "leaflet/dist/leaflet.css";
 import ws from "./websocket";
@@ -74,7 +74,9 @@ function CarMarker() {
   );
 }
 
-function Map() {
+function Map({
+  setMap,
+}: React.PropsWithChildren<{ setMap: (map: LeafletMap) => void }>) {
   return (
     <MapContainer
       center={[c.map.lat.center, c.map.long.center]}
@@ -83,6 +85,7 @@ function Map() {
       zoom={-2}
       crs={CRS.Simple}
       attributionControl={false}
+      whenCreated={setMap}
     >
       <ImageOverlay
         url="map.png"
