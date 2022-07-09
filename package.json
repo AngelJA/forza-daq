@@ -1,13 +1,22 @@
 {
   "name": "forza-daq",
   "version": "1.0.0",
+  "bin": {
+    "forza-daq": "js/server.js"
+  },
+  "pkg": {
+    "assets": [
+      "build/**/*"
+    ],
+    "outputPath": "dist"
+  },
   "scripts": {
     "start": "npm-run-all -p -r start-react server",
     "start-react": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "./build.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "ts-node src/server.ts"
+    "server": "ts-node src/server.ts dev"
   },
   "keywords": [],
   "devDependencies": {
@@ -32,6 +41,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "jest": "^27.5.1",
     "npm-run-all": "^4.1.5",
+    "pkg": "^5.5.2",
     "react-scripts": "5.0.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
@@ -55,6 +65,7 @@
     ]
   },
   "dependencies": {
+    "express": "^4.17.3",
     "leaflet": "^1.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
