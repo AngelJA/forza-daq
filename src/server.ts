@@ -13,6 +13,8 @@ class Server {
 
   ws!: WebSocket.WebSocket;
 
+  scrubPosition: number | null = null;
+
   constructor() {
     const udpSocket = dgram.createSocket("udp4");
     udpSocket.bind(c.udpPort);
@@ -56,6 +58,8 @@ class Server {
           configs: userConfig().chart.configs,
         })
       );
+    } else if (command.action === c.actions.sendScrubPosition) {
+      this.scrubPosition = command.pos;
     }
   }
 
@@ -95,6 +99,7 @@ class Server {
     const { logRate } = userConfig();
     const filename = await this.getLogFileName();
     const fh = await open(filename, "r");
+    const { size: fileSize } = await fh.stat();
     const client = dgram.createSocket("udp4");
     const data = Buffer.alloc(messageLength);
     let offset = 0;
@@ -104,7 +109,21 @@ class Server {
       if (bytesRead === 0) {
         offset = 0;
       } else {
-        offset += messageLength;
+        if (this.scrubPosition) {
+          offset =
+            Math.round(
+              ((this.scrubPosition / 100) * fileSize) / messageLength
+            ) * messageLength;
+          this.scrubPosition = null;
+        } else {
+          offset += messageLength;
+        }
+        this.ws.send(
+          JSON.stringify({
+            type: c.actions.sendScrubPosition,
+            pos: (offset / fileSize) * 100,
+          })
+        );
         client.send(data, c.udpPort, "localhost");
       }
     }, 1000 / logRate);

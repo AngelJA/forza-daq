@@ -25,6 +25,7 @@
     "requestLogFileName": 5,
     "sendLogFileName": 6,
     "requestChartConfigs": 7,
-    "sendChartConfigs": 8
+    "sendChartConfigs": 8,
+    "sendScrubPosition": 9
   }
 }

@@ -7,6 +7,7 @@ function LogControls() {
   const [state, setState] = useState({
     playingBack: false,
     recording: false,
+    scrubberValue: 0,
     showControls: false,
     fileList: [],
   });
@@ -21,6 +22,8 @@ function LogControls() {
       const msg = JSON.parse(event.data);
       if (msg.type === c.actions.requestLogFileName) {
         updateState({ fileList: msg.fileNames });
+      } else if (msg.type === c.actions.sendScrubPosition) {
+        updateState({ scrubberValue: msg.pos });
       }
     });
   }, []);
@@ -68,6 +71,19 @@ function LogControls() {
             >
               {state.playingBack ? "⏹" : "▶"}
             </button>
+            <input
+              type="range"
+              min="0"
+              max="99.99"
+              step="0.01"
+              value={state.scrubberValue}
+              className="Scrubber"
+              onInput={(f) => {
+                sendCommand(c.actions.sendScrubPosition, {
+                  pos: +(f.target as HTMLInputElement).value,
+                });
+              }}
+            />
           </>
         )}
       </div>

@@ -21,13 +21,19 @@
   z-index: 1000;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
-.Controls > .Buttons > button {
+.Controls > .Buttons * {
   margin-bottom: 1rem;
   margin-left: 1rem;
   border-radius: 50%;
   height: 3rem;
   aspect-ratio: 1;
   font-size: 1rem;
+}
+
+.Controls > .Buttons > .Scrubber {
+  margin-right: 1rem;
+  width: 100%;
 }
