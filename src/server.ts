@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import dgram from "dgram";
 import { MessageEvent, WebSocket } from "ws";
+import express from "express";
+import { join } from "path";
 import { open, readdir } from "fs/promises";
 import c from "./config.json";
 import { fieldNames, messageLength, parseForzaData } from "./forzaData";
@@ -17,13 +19,6 @@ class Server {
     udpSocket.on("error", (err) => {
       console.log(`UDP socket error:\n${err.stack}`);
       udpSocket.close();
-    });
-
-    udpSocket.on("listening", () => {
-      const address = udpSocket.address();
-      console.log(
-        `Listening for Forza data at: ${address.address}:${address.port}`
-      );
     });
 
     udpSocket.on("message", this.onUdpMsg.bind(this));
@@ -132,4 +127,14 @@ if (require.main === module) {
   const server = new Server();
   const webSocketServer = new WebSocket.Server({ port: c.wsPort });
   webSocketServer.on("connection", server.newWsConnection.bind(server));
+
+  if (!process.argv.includes("dev")) {
+    const app = express();
+    app.use(express.static(join(__dirname, "../build")));
+    app.get("*", (req, res) => {
+      res.sendFile(join(__dirname, "../build/index.html"));
+    });
+    app.listen(c.webPort);
+    console.log(`Go to: http://localhost:${c.webPort}`);
+  }
 }
