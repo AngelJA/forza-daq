@@ -1,4 +1,5 @@
 {
+  "logRate": 60,
   "udpPort": 1642,
   "wsPort": 5001,
   "map": {
@@ -14,5 +15,13 @@
       [-6557, -5665],
       [4843, 6285]
     ]
+  },
+  "actions": {
+    "sendGameData": 0,
+    "startRecording": 1,
+    "endRecording": 2,
+    "startPlayback": 3,
+    "endPlayback": 4,
+    "sendLogFileName": 5
   }
 }

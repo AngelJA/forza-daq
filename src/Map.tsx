@@ -15,28 +15,38 @@ import arrow from "./arrow.svg";
 const arrowIcon = icon({ iconUrl: arrow, iconSize: [40, 40] });
 
 function CarMarker() {
-  const [markerPos, setMarkerPos] = useState({
-    lat: c.map.lat.center,
-    long: c.map.long.center,
-    yaw: 0,
+  const [state, setState] = useState({
+    marker: {
+      lat: c.map.lat.center,
+      long: c.map.long.center,
+      yaw: 0,
+    },
+    panToMarker: true,
   });
+  const updateState = (newState: any) =>
+    setState((prevState) => ({
+      ...prevState,
+      ...newState,
+    }));
 
-  const { lat, long, yaw } = markerPos;
   const markerRef = useRef<Marker>(null);
-  const [panToMarker, setPanToMarker] = useState(true);
   const map = useMapEvent("dragstart", () => {
-    setPanToMarker(false);
+    updateState({ panToMarker: false });
   });
 
   useEffect(() => {
     ws.addEventListener("message", (event) => {
       const msg = JSON.parse(event.data);
-      if (msg.s32IsRaceOn) {
-        setMarkerPos({
-          lat: msg.f32PositionZ,
-          long: msg.f32PositionX,
-          yaw: (msg.f32Yaw * 180) / Math.PI,
-        });
+      if (msg.action === c.actions.sendGameData) {
+        if (msg.gameData.s32IsRaceOn) {
+          updateState({
+            marker: {
+              lat: msg.gameData.f32PositionZ,
+              long: msg.gameData.f32PositionX,
+              yaw: (msg.gameData.f32Yaw * 180) / Math.PI,
+            },
+          });
+        }
       }
     });
   }, []);
@@ -47,9 +57,9 @@ function CarMarker() {
       // @ts-ignore
       const markerIcon = marker._icon; // eslint-disable-line no-underscore-dangle
       markerIcon.style[`${DomUtil.TRANSFORM}-origin`] = "center";
-      markerIcon.style[DomUtil.TRANSFORM] += ` rotateZ(${yaw}deg)`;
-      if (panToMarker) {
-        map.panTo([lat, long]);
+      markerIcon.style[DomUtil.TRANSFORM] += ` rotateZ(${state.marker.yaw}deg)`;
+      if (state.panToMarker) {
+        map.panTo([state.marker.lat, state.marker.long]);
       }
     }
   });
@@ -57,9 +67,9 @@ function CarMarker() {
   return (
     <ReactMarker
       icon={arrowIcon}
-      position={[lat, long]}
+      position={[state.marker.lat, state.marker.long]}
       ref={markerRef}
-      eventHandlers={{ click: () => setPanToMarker(true) }}
+      eventHandlers={{ click: () => updateState({ panToMarker: true }) }}
     />
   );
 }
