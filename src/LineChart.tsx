@@ -31,7 +31,7 @@ export type ChartConfig = {
   fps: number;
   maxDataPoints: number;
   fields: string[];
-  data: ChartData;
+  data: ChartData<"line">;
   chartConfig: ChartConfiguration;
 };
 
@@ -41,15 +41,9 @@ function updateChartCallback(config: ChartConfig) {
     if (msg.action === c.actions.sendGameData) {
       config.data.datasets.forEach((dataset, i) => {
         const key = config.fields[i];
-        let y = msg.gameData[key];
-        if (key?.startsWith("u8")) {
-          y /= 255;
-        } else if (key?.startsWith("s8")) {
-          y = -(y + 128) / 255 + 1;
-        }
         const { data } = dataset as ChartDataset<"line", ScatterDataPoint[]>;
-        data.push({ x: 0, y });
-        if (data.length > config.maxDataPoints) {
+        data.push({ x: 0, y: msg.gameData[key] });
+        while (data.length > config.maxDataPoints) {
           data.shift();
         }
         data.forEach((point, j) => {
@@ -62,7 +56,11 @@ function updateChartCallback(config: ChartConfig) {
 
 function LineChart({
   config,
-}: React.PropsWithChildren<{ config: ChartConfig }>) {
+  editConfig,
+}: React.PropsWithChildren<{
+  config: ChartConfig;
+  editConfig: (configToEdit: ChartConfig) => void;
+}>) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [showLegend, setShowLegend] = useState(true);
   const chartRef = useRef<Chart | null>(null);
@@ -108,6 +106,15 @@ function LineChart({
         onClick={() => setShowLegend(!showLegend)}
       >
         {showLegend ? "-" : "+"}
+      </button>
+      <button
+        type="button"
+        className="EditConfigButton"
+        onClick={() => {
+          editConfig(config);
+        }}
+      >
+        edit
       </button>
       <canvas ref={canvasRef} />
     </div>

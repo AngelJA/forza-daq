@@ -26,5 +26,14 @@
     "sendLogFileName": 5,
     "sendChartConfigs": 6,
     "sendScrubPosition": 9
+  },
+  "newConfig": {
+    "field": "s8Steer",
+    "dataset": {
+      "borderColor": "#0000FF80",
+      "backgroundColor": "#0000FF80",
+      "fill": false,
+      "data": []
+    }
   }
 }

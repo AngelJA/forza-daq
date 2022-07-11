@@ -5,7 +5,7 @@ import express from "express";
 import { join } from "path";
 import { open, readdir } from "fs/promises";
 import c from "./config.json";
-import configs from "../config.json";
+import { getUserConfig, writeUserConfig } from "./userConfig";
 import { fields, messageLength, parseForzaData } from "./forzaData";
 
 class Server {
@@ -57,12 +57,16 @@ class Server {
     } else if (command.action === c.actions.startPlayback) {
       this.playbackFromFile();
     } else if (command.action === c.actions.sendChartConfigs) {
-      this.ws.send(
-        JSON.stringify({
-          action: c.actions.sendChartConfigs,
-          configs,
-        })
-      );
+      if (command.configs) {
+        writeUserConfig(command.configs);
+      } else {
+        this.ws.send(
+          JSON.stringify({
+            action: c.actions.sendChartConfigs,
+            configs: getUserConfig(),
+          })
+        );
+      }
     } else if (command.action === c.actions.sendScrubPosition) {
       this.scrubPosition = command.pos;
     }

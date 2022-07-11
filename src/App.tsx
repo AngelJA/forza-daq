@@ -8,9 +8,10 @@ import Map from "./Map";
 import LogControls from "./LogControls";
 import NoDataWarning from "./NoDataWarning";
 import LineChart, { ChartConfig } from "./LineChart";
-import { request } from "./websocket";
+import { sendCommand, request } from "./websocket";
 import c from "./config.json";
 import CarAndLapInfo from "./CarAndLapInfo";
+import ConfigEditor from "./ConfigEditor";
 
 const ReactGridLayout = WidthProvider(RGL);
 const layoutsKey = "layouts";
@@ -22,6 +23,7 @@ function App() {
     JSON.parse(global.localStorage?.getItem(layoutsKey) ?? "null") ?? []
   );
   const [doneLoading, setDoneLoading] = useState(false);
+  const [configToEdit, setConfigToEdit] = useState<ChartConfig>();
 
   useEffect(() => {
     request<{ configs: ChartConfig[] }>(c.actions.sendChartConfigs).then(
@@ -37,6 +39,15 @@ function App() {
     <div className="App">
       <NoDataWarning />
       <LogControls />
+      {configToEdit && (
+        <ConfigEditor
+          initialConfig={configToEdit}
+          doneEditing={() => {
+            setConfigToEdit(undefined);
+            sendCommand(c.actions.sendChartConfigs, { configs });
+          }}
+        />
+      )}
       <CarAndLapInfo />
       <ReactGridLayout
         className="layout"
@@ -62,7 +73,10 @@ function App() {
             key={JSON.stringify(config.fields)}
             data-grid={{ x: 0, y: 0, w: 12, h: 10 }}
           >
-            <LineChart config={config} />
+            <LineChart
+              config={config}
+              editConfig={(cc: ChartConfig) => setConfigToEdit(cc)}
+            />
             <div className="DragHandle" />
           </div>
         ))}
